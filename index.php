@@ -2,14 +2,14 @@
 
 include __DIR__  . '/function.php';
 
-$password_lenght = $_GET['password_lenght'];
+$error = '';
 
-
-
-$password = getGeneratePassword($password_lenght);
-
-
-
+$password_lenght = intval($_GET['password_lenght']);
+if ($password_lenght < 8) {
+    $error = 'la password deve essere uguale o maggiore di 8 caratteri';
+} else {
+    $password = getGeneratePassword($password_lenght);
+}
 ?>
 
 
@@ -25,16 +25,20 @@ $password = getGeneratePassword($password_lenght);
 <div>
     <div class="container">
         <form action="" method="GET">
-              <input type="number" name="password_lenght" id="password_lenght">
-              <input type="submit" value="invia">
+              <input type="text" name="password_lenght" id="password_lenght">
+              <input type="submit" value="Genera">
+              <h1>
+                <?php echo $error; ?>
+              </h1>
         </form>
-   
     </div>
-    <div>
-        <p> 
-            La tua password generata è : <?= $password ?>
-        </p>
-    </div>
+    <?php if (!$error): ?>
+        <div>
+            <p> 
+                La tua password generata è : <?= $password ?>
+            </p>
+        </div>
+    <?php endif; ?>
 </div>
     
 </body>
